@@ -11,14 +11,14 @@ lli fibonacci_OP(lli n) {
 
     n-=2; //desplazamiento para calcular a partir de n=3
 
-    lli f0=0,f1=1,fib[4];
-    for(lli i=0;i<n;i+=4){
-        fib[0]=f0 + f1;
-        fib[1]=f0 + f1*2;
-        fib[2]=f0*2 + f1*3;
-        fib[3]=f0*3 + f1*5;
-        f0=fib[2];
-        f1=fib[3];
+    lli f0 = 0, f1 = 1, fib[4];
+    for(lli i = 0 ; i < n ; i += 4){
+        fib[0] = f0 + f1;
+        fib[1] = f0 + f1 * 2;
+        fib[2] = f0 * 2 + f1 * 3;
+        fib[3] = f0 * 3 + f1 * 5;
+        f0 = fib[2];
+        f1 = fib[3];
     }
 
     return fib[n%4];
@@ -54,7 +54,5 @@ int main(int argc, char const *argv[]){
 
         printf("%lld,%f\n", i, time_spent/N_exp);
     }
-
-
     return 0;
 }
