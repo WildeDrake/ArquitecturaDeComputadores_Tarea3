@@ -27,7 +27,7 @@ void invertir2(char *str) {
     int lenght = strlen(str);
     char aux;
     char aux2;  
-    for (int i = 0 ; i < lenght / 2 ; i += 2) {        
+    for (int i = 0 ; i < (lenght / 2) ; i += 2) {        
         aux = str[i];
         aux2 = str[i+1];
         str[i] = str[lenght - i - 1];
@@ -38,19 +38,21 @@ void invertir2(char *str) {
 }
 
 // Funcion con reduccion de operaciones.
-void invertir4(char *str) {
+void invertir3(char *str) {
     int lenght = strlen(str);
-    int halflenght = lenght / 2;
-    char aux, aux2;
-    for (int i = 0, j = lenght-1 ; i < halflenght ; i += 2, j -= 2) {
+    char aux, aux2, aux3, aux4;
+    for (int i = 0 ; i < lenght / 2 ; i += 2) {     
         aux = str[i];
         aux2 = str[i+1];
-        str[i] = str[j];
-        str[i+1] = str[j-1];
-        str[j] = aux;
-        str[j-1] = aux2;
+        aux3 = lenght - i - 1;
+        aux4 = aux3 - 1;
+        str[i] = str[aux3];
+        str[i+1] = str[aux4];
+        str[aux3] = aux;
+        str[aux4] = aux2;
     }
 }
+
 
 int main() {
     char prueba[] = "abcdefghij"; 
