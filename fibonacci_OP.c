@@ -27,13 +27,13 @@ lli fibonacci_OP(lli n) {
 int main(int argc, char const *argv[]){
     
     if (argc < 2 || argc > 4) {
-        printf("Uso %s <valor maximo> <intervalo. Def=10> <Número de experimentos. Def=20>\n", argv[0]);
+        printf("Uso %s <valor maximo> <intervalo. Def=200> <Número de experimentos. Def=20>\n", argv[0]);
         return 1;
     }
 
     lli max = atoll(argv[1]);
     lli N_exp = 20;
-    lli intervalo = 10;
+    lli intervalo = 200;
     if (argc == 3) intervalo = atoll(argv[2]);
     if (argc == 4) N_exp = atoll(argv[3]);
 
