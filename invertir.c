@@ -38,7 +38,7 @@ void invertir2(char *str) {
 }
 
 // Funcion con reduccion de operaciones.
-void invertir4(char *str) {
+void invertir3(char *str) {
     int lenght = strlen(str);
     int halflenght = lenght / 2;
     char aux, aux2;
