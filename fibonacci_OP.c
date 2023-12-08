@@ -5,23 +5,32 @@
 typedef long long int lli;
 
 lli fibonacci_OP(lli n) {
+    lli f0 = 0, f1 = 1, f2 = 1,f3 = 2, f2_cp;
+    for(lli i = 4 ; i < n ; i += 4){
+        f2_cp = f2;
 
-    if (n == 1) return 0;
-    if (n == 2) return 1;
-
-    n-=2; //desplazamiento para calcular a partir de n=3
-
-    lli f0 = 0, f1 = 1, fib[4];
-    for(lli i = 0 ; i < n ; i += 4){
-        fib[0] = f0 + f1;
-        fib[1] = f0 + f1 * 2;
-        fib[2] = f0 * 2 + f1 * 3;
-        fib[3] = f0 * 3 + f1 * 5;
-        f0 = fib[2];
-        f1 = fib[3];
+        f0 = f2 + f3;
+        f1 = f2 + f3 * 2;
+        f2 = f2 * 2 + f3 * 3;
+        f3 = f2_cp * 3 + f3 * 5;
     }
 
-    return fib[n%4];
+    switch(n%4) {
+        case 1:
+            return f0;
+            break;
+        case 2:
+            return f1;
+            break;
+        case 3:
+            return f2;
+            break;
+        case 0:
+            return f3;
+            break;
+    }
+
+    return -1;
 }
 
 int main(int argc, char const *argv[]){
