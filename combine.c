@@ -4,7 +4,7 @@
 #include <windows.h>
 
 #define IDENT 1
-#define OP    *
+#define OP *
 typedef float data_t;
 
 double perfomanceCounter_diff(LARGE_INTEGER *a, LARGE_INTEGER *b) {
@@ -18,18 +18,15 @@ typedef struct {
     data_t *data;
 } vec_rec, *vec_ptr;
 
-/* Create vector of specified length */
- vec_ptr new_vec(int len) {
-    /* allocate header structure */
+vec_ptr new_vec(int len) {
     vec_ptr result = (vec_ptr) malloc(sizeof(vec_rec));
-    if (!result) return NULL; /* Couldn’t allocate storage */
+    if (!result) return NULL;
     result->len = len;
-    /* Allocate array */
     if (len > 0) {
         data_t *data = (data_t *)calloc(len, sizeof(data_t));
         if (!data) {
             free((void *) result);
-            return NULL; /* Couldn’t allocate storage */
+            return NULL;
         }
         result->data = data;
     } else result->data = NULL;
@@ -40,20 +37,11 @@ data_t *get_vec_start(vec_ptr v){
     return v->data;
 }
 
-/*
- * Retrieve vector element and store at dest.
- * Return 0 (out of bounds) or 1 (successful)
-*/
 int get_vec_element(vec_ptr v, int index, data_t *dest) {
     if (index < 0 || index >= v->len) return 0;
     *dest = v->data[index];
     return 1;
 }
-
-/*
- * Put vector element and store at vector.
- * Return 0 (out of bounds) or 1 (successful)
-*/
 
 int put_vec_element(vec_ptr v, int index, data_t data) {
     if (index < 0 || index >= v->len) return 0;
@@ -61,15 +49,15 @@ int put_vec_element(vec_ptr v, int index, data_t data) {
     return 1;
 }
 
-/* Return length of vector */
 int vec_length(vec_ptr v) {
     return v->len;
 }
 
-/* Implementation with maximum use of data abstraction */
+///////////////////////////////////////////////////////////////////////////
+
+// Funcion no optimizada.
 void combine1(vec_ptr v, data_t *dest) {
     int i;
-
     *dest = IDENT;
     for (i = 0; i < vec_length(v); i++) {
         data_t val;
@@ -78,28 +66,39 @@ void combine1(vec_ptr v, data_t *dest) {
     }
 }
 
+// Funcion con reduccion de llamadas a funciones.
 void combine3(vec_ptr v, data_t *dest) {
     int i;
     long int length = vec_length(v);
     data_t *data = get_vec_start(v);
     *dest = 0;
-    for (i = 0; i < length; i++) {
+    for (i = 0 ; i < length ; i++) {
         *dest = *dest OP data[i];
     }
 }
 
+// Funcion con loop unrolling de 4 operaciones.
 void combine5(vec_ptr v, data_t *dest) {
     int i;
     long int length = vec_length(v);
     data_t *data = get_vec_start(v);
     data_t resultado1 = IDENT;
     data_t resultado2 = IDENT;
-    for (i = 0; i < length; i+=2) {
+    data_t resultado3 = IDENT;
+    data_t resultado4 = IDENT;
+    for (i = 0 ; i < length ; i += 4) {
         resultado1 = resultado1 OP data[i];
         resultado2 = resultado2 OP data[i+1];
+        resultado3 = resultado3 OP data[i+2];
+        resultado4 = resultado4 OP data[i+3];
     }
-    *dest = resultado1+resultado2;
+    for ( ; i < length ; i++) {
+        resultado1 = resultado1 OP data[i];
+    }
+    *dest = resultado1 OP resultado2 OP resultado3 OP resultado4;
 }
+
+///////////////////////////////////////////////////////////////////////////
 
 int main() {
     double secs, sum_secs=0.0;
