@@ -66,6 +66,20 @@ void combine1(vec_ptr v, data_t *dest) {
     }
 }
 
+// Funcion que reduce las llamadas de vec_lenght de n veces a sólo una vez.
+
+void combine2(vec_ptr v, data_t *dest){
+    long i;
+    long length = vec_length(v);
+
+    *dest = IDENT;
+    for(i = 0; i < length ; i++){
+        data_t val;
+        get_vec_element(v,i,&val);
+        *dest = *dest OP val;
+    }
+}
+
 // Funcion con reduccion de llamadas a funciones.
 void combine3(vec_ptr v, data_t *dest) {
     int i;
@@ -74,6 +88,17 @@ void combine3(vec_ptr v, data_t *dest) {
     *dest = 0;
     for (i = 0 ; i < length ; i++) {
         *dest = *dest OP data[i];
+    }
+}
+
+// Funcion que elimina el uso del puntero *dest dentro del ciclo (Reduciendo las referencias a memoria)
+
+void combine4(vec_ptr v, data_t *dest) {
+    long int i, length = vec_length(v);
+    data_t *data = get_vec_start(v), acc = IDENT;
+    for (i = 0; i < length; i++){
+        acc = acc OP data[i];
+        *dest = acc;
     }
 }
 

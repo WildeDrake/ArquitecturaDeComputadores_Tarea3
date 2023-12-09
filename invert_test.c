@@ -27,11 +27,11 @@ int main(int argc, char const *argv[]){
     int N_exp = atoi(argv[2]);
     char* Array = getArr(tamArray);
     double time0 = 0, time1 = 0, time2 = 0, time3 = 0;
-
+    clock_t start; clock_t end;
     for(int i = 0 ; i < N_exp ; i++) {
-        clock_t start = clock();
+        start = clock();
         invertir(Array);
-        clock_t end = clock();
+        end = clock();
         time0 += (double)(end - start) / CLOCKS_PER_SEC;
 
         start = clock();
