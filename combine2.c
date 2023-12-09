@@ -68,6 +68,7 @@ void combine1(vec_ptr v, data_t *dest) {
         data_t val;
         get_vec_element(v, i, &val);
         *dest = *dest OP val;
+        printf("alb");
     }
 }
 
@@ -100,11 +101,11 @@ int main() {
         clock_t start=clock();
         combine1(vector, &res);
         clock_t end=clock();
-        printf("\nResultado=%d\nEjecucion de combine1 desde %d hasta %d\nCiclos transcurridos:%d", res, start, end,CLOCKS_PER_SEC end-start);
+        printf("\nResultado=%f\nEjecucion de combine1 desde %d hasta %d\nCiclos transcurridos:%f", res, start, end,/*CLOCKS_PER_SEC*/ end-start);
         start=clock();
         combine3(vector, &res);
         end=clock();
-        printf("\nResultado=%d\nEjecución de combine3 desde %d hasta %d\nCiclos transcurridos:%d", res, start, end,CLOCKS_PER_SEC end-start);
+        printf("\nResultado=%f\nEjecucion de combine3 desde %d hasta %d\nCiclos transcurridos:%f", res, start, end,/*CLOCKS_PER_SEC*/ end-start);
 
      } else
         printf("\n\nNose pudo crear el arreglo!!");
