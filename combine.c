@@ -76,8 +76,8 @@ void combine2(vec_ptr v, data_t *dest){
     for(i = 0; i < length ; i++){
         data_t val;
         get_vec_element(v,i,&val);
-        *dest = *dest OP val;
     }
+    *dest = *dest OP val;
 }
 
 // Funcion con reduccion de llamadas a funciones.
@@ -104,6 +104,19 @@ void combine4(vec_ptr v, data_t *dest) {
 
 // Funcion con loop unrolling de 4 operaciones.
 void combine5(vec_ptr v, data_t *dest) {
+    long int i, length = vec_length(v);
+    data_t *data = get_vec_start(v), acc = IDENT;
+    for (i = 0; i < length; i+=4){
+        acc = acc OP ((data[i] OP data[i+1]) OP (data[i+2] OP data[i+3]));
+    }
+    for ( ; i < length; i++){
+        acc = acc OP data[i];
+    }
+    *dest = acc;
+}
+
+// Funcion con paralelismo de 4 vias.
+void combine6(vec_ptr v, data_t *dest) {
     int i;
     long int length = vec_length(v);
     data_t *data = get_vec_start(v);
